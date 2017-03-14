@@ -65,6 +65,7 @@ test: install
 
 .PHONY: clean
 clean:
+	$(GULP) del
 	rm -rf project/static/bower_components
 	rm -rf node_modules
 	rm -rf .venv

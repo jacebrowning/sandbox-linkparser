@@ -1,5 +1,6 @@
 *.DS_Store
 *.pyc
+*.sublime-workspace
 
 # pipenv
 .venv/
@@ -12,4 +13,4 @@ npm-debug.log
 bower_components/
 
 # Generated code
-project/static/scripts/js/
+project/static/scripts/js
