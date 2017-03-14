@@ -1,11 +1,8 @@
-/* custom styles */
-
 .container {
   text-align: center;
   padding-top: 50px;
   max-width: 300px;
 }
-
 
 input {
   text-align: center;
@@ -15,7 +12,6 @@ input {
   outline: none;
   margin-bottom: 20px;
 }
-
 
 ul {
   margin-left: 20px;

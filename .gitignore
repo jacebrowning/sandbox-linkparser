@@ -10,3 +10,6 @@ npm-debug.log
 
 # Bower
 bower_components/
+
+# Generated code
+project/static/scripts/js/
