@@ -1,0 +1,12 @@
+*.DS_Store
+*.pyc
+
+# pipenv
+.venv/
+
+# NPM
+node_modules/
+npm-debug.log
+
+# Bower
+bower_components/
