@@ -10,6 +10,9 @@ PYTHON_PACKAGES := .venv/.installed
 NODE_MODULES := node_modules/.installed
 BOWER_COMPONENTS := project/static/bower_components/.installed
 
+PIP := .venv/bin/pip
+BOWER := node_modules/bower/bin/bower
+
 .PHONY: install
 install: $(PYTHON_PACKAGES) $(NODE_MODULES) $(BOWER_COMPONENTS)
 
@@ -25,13 +28,25 @@ $(NODE_MODULES): package.json
 	@ touch $@
 
 $(BOWER_COMPONENTS): bower.json
-	bower install
+	$(BOWER) install
 	@ touch $@
+
+# BUILD ########################################################################
+
+GULP := node_modules/gulp/bin/gulp.js
+
+.PHONY: build
+build: install
+	$(GULP) transform
+
+.PHONY: rebuild
+rebuild: install
+	$(GULP)
 
 # RUNNERS ######################################################################
 
 .PHONY: run
-run: install
+run: install build
 	pipenv run python project/app.py
 
 .PHONY: run-prod
