@@ -27,11 +27,13 @@ $(NODE_MODULES): package.json
 	npm install
 	@ touch $@
 
-$(BOWER_COMPONENTS): bower.json
+$(BOWER_COMPONENTS): bower.json $(BOWER)
 	$(BOWER) install
 	@ touch $@
 
-# BUILD ########################################################################
+$(BOWER): $(NODE_MODULES)
+
+# BUILDERS #####################################################################
 
 GULP := node_modules/gulp/bin/gulp.js
 
@@ -58,3 +60,11 @@ run-prod: install
 .PHONY: test
 test: install
 	echo "TODO: run tests"
+
+# CLEANUP ######################################################################
+
+.PHONY: clean
+clean:
+	rm -rf project/static/bower_components
+	rm -rf node_modules
+	rm -rf .venv
