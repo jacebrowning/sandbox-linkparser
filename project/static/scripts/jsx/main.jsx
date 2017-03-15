@@ -9,11 +9,25 @@ function LinksList(props) {
 }
 
 
+function getHTML(url) {
+    // TODO: retry with proxy
+    return fetch('/proxy?url=' + url)
+      .then(response => {
+        return response.text();
+      }).then((html) => {
+        console.log(html);
+        return html;
+      }).catch((error) => {
+        console.error(error)
+      });
+  }
+
+
 class LinkForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {value: '', links: []};
+    this.state = {value: 'http://example.com', links: []};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,7 +38,10 @@ class LinkForm extends React.Component {
   }
 
   handleSubmit(event) {
-    this.setState({links: ['a', 'b']});
+    getHTML(this.state.value)
+      .then((html) => {
+        this.setState({links: ['a', 'b', html]});
+      });
     event.preventDefault();
   }
 
@@ -48,7 +65,4 @@ class LinkForm extends React.Component {
 }
 
 
-ReactDOM.render(
-  <LinkForm />,
-  document.getElementById('main')
-);
+ReactDOM.render(<LinkForm />, document.getElementById('main'));

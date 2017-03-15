@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "22ec3f91edff152c64476c19d278a59a6d3e7ca47871f3f62dda8b9aafdd9a48"
+            "sha256": "e765f261d732b7cbd6cedecb4fa2d350b8fc34719c7500da368cc4f192f92427"
         },
         "requires": {},
         "sources": [
@@ -25,8 +25,8 @@
             "version": "==1.0"
         },
         "Werkzeug": {
-            "hash": "sha256:7fce5d96278e9e4132fd0e90ff17d2bcc6e74695d11e619ba4645c0341396810",
-            "version": "==0.12"
+            "hash": "sha256:918322630c58fa52b89e14c45de3ad78514e18928dac726060bb89cd647f6b83",
+            "version": "==0.12.1"
         },
         "click": {
             "hash": "sha256:29f99fc6125fbc931b758dc053b3114e55c77a6e4c6c3a2674a2dc986016381d",
@@ -39,6 +39,18 @@
         "itsdangerous": {
             "hash": "sha256:cbb3fcf8d3e33df861709ecaf89d9e6629cff0a217bc2848f1b41cd30d360519",
             "version": "==0.24"
+        },
+        "marshmallow": {
+            "hash": "sha256:e48cf450dd548f778a836563e2779d08b115e329fe7316a275de4ba600c377c7",
+            "version": "==2.13.3"
+        },
+        "requests": {
+            "hash": "sha256:1a720e8862a41aa22e339373b526f508ef0c8988baf48b84d3fc891a8e237efb",
+            "version": "==2.13.0"
+        },
+        "webargs": {
+            "hash": "sha256:97d3c5569be17385bf7561aae7ac94992bf81993419a7a3379607620c17ba372",
+            "version": "==1.6.0"
         }
     },
     "develop": {}

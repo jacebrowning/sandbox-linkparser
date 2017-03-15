@@ -49,7 +49,7 @@ rebuild: install
 
 .PHONY: run
 run: install build
-	pipenv run python project/app.py
+	status=1; while [ $$status -eq 1 ]; do pipenv run python project/app.py; status=$$?; sleep 1; done
 
 .PHONY: run-prod
 run-prod: install

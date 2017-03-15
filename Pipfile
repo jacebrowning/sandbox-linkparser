@@ -4,4 +4,6 @@ verify_ssl = true
 
 [packages]
 gunicorn = "*"
+requests = "*"
+webargs = "*"
 Flask = "*"
