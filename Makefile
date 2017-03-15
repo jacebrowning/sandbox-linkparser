@@ -43,7 +43,7 @@ build: install
 
 .PHONY: rebuild
 rebuild: install
-	$(GULP)
+	status=1; while [ $$status -eq 1 ]; do $(GULP); status=$$?; sleep 1; done
 
 # RUNNERS ######################################################################
 

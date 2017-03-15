@@ -1,53 +1,54 @@
-var DynamicSearch = React.createClass({
+function LinksList(props) {
+  return (
+    <ul>
+      {props.values.map(function(value){
+        return <li><a href={value}>{value}</a></li>;
+      })}
+    </ul>
+  )
+}
 
-  // sets initial state
-  getInitialState: function(){
-    return { searchString: '' };
-  },
 
-  // sets state, triggers render method
-  handleChange: function(event){
-    // grab value form input box
-    this.setState({searchString:event.target.value});
-    console.log("scope updated!");
-  },
+class LinkForm extends React.Component {
 
-  render: function() {
+  constructor(props) {
+    super(props);
+    this.state = {value: '', links: []};
 
-    var countries = this.props.items;
-    var searchString = this.state.searchString.trim().toLowerCase();
-
-    // filter countries list by value from input box
-    if(searchString.length > 0){
-      countries = countries.filter(function(country){
-        return country.name.toLowerCase().match( searchString );
-      });
-    }
-
-    return (
-      <div>
-        <input type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search!" />
-        <ul>
-          { countries.map(function(country){ return <li>{country.name} </li> }) }
-        </ul>
-      </div>
-    )
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-});
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
 
-// list of countries, defined with JavaScript object literals
-var countries = [
-  {"name": "Sweden"}, {"name": "China"}, {"name": "Peru"}, {"name": "Czech Republic"},
-  {"name": "Bolivia"}, {"name": "Latvia"}, {"name": "Samoa"}, {"name": "Armenia"},
-  {"name": "Greenland"}, {"name": "Cuba"}, {"name": "Western Sahara"}, {"name": "Ethiopia"},
-  {"name": "Malaysia"}, {"name": "Argentina"}, {"name": "Uganda"}, {"name": "Chile"},
-  {"name": "Aruba"}, {"name": "Japan"}, {"name": "Trinidad and Tobago"}, {"name": "Italy"},
-  {"name": "Cambodia"}, {"name": "Iceland"}, {"name": "Dominican Republic"}, {"name": "Turkey"},
-  {"name": "Spain"}, {"name": "Poland"}, {"name": "Haiti"}
-];
+  handleSubmit(event) {
+    this.setState({links: ['a', 'b']});
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <div>
+
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            URL:
+            <input type="text" value={this.state.value} onChange={this.handleChange} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+
+        <LinksList values={this.state.links} />
+
+      </div>
+    );
+  }
+}
+
 
 ReactDOM.render(
-  <DynamicSearch items={ countries } />,
+  <LinkForm />,
   document.getElementById('main')
 );
