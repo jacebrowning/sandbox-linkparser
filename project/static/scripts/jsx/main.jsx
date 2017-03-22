@@ -1,8 +1,8 @@
 function LinksList(props) {
   return (
     <ul>
-      {props.values.map(function(value){
-        return <li><a href={value}>{value}</a></li>;
+      {props.hrefs.map( function(href) {
+        return <li><a href={href}>{href}</a></li>;
       })}
     </ul>
   )
@@ -48,22 +48,24 @@ class LinkForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {value: 'https://en.wikipedia.org/wiki/React_(JavaScript_library)', links: []};
-
+    this.state = {
+      url: 'https://en.wikipedia.org/wiki/React_(JavaScript_library)',
+      hrefs: [],
+    };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({url: event.target.value});
   }
 
   handleSubmit(event) {
-    getHTML(this.state.value
+    getHTML(this.state.url
       ).then((html) => {
-        return getLinksFromHTML(html, this.state.value);
+        return getLinksFromHTML(html, this.state.url);
       }).then((hrefs) => {
-        this.setState({links: hrefs});
+        this.setState({hrefs: hrefs});
       });
     event.preventDefault();
   }
@@ -73,14 +75,11 @@ class LinkForm extends React.Component {
       <div>
 
         <form onSubmit={this.handleSubmit}>
-          <label>
-            URL:
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
+          <input type="text" value={this.state.url} onChange={this.handleChange} />
+          <input type="submit" class="button-submit" value="Submit" />
         </form>
 
-        <LinksList values={this.state.links} />
+        <LinksList hrefs={this.state.hrefs} />
 
       </div>
     );
