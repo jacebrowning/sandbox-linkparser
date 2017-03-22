@@ -15,7 +15,6 @@ function getHTML(url) {
       .then(response => {
         return response.text();
       }).then((html) => {
-        console.log(html);
         return html;
       }).catch((error) => {
         console.error(error)
@@ -23,11 +22,33 @@ function getHTML(url) {
   }
 
 
+function getLinksFromHTML(html, base) {
+  var hrefs = [];
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(html, 'text/xml');
+  var anchors = doc.getElementsByTagName('a');
+  for (var i=0; i < anchors.length; i++) {
+    var href = anchors[i].getAttribute('href');
+    if (href) {
+      href = href.trim();
+      if (href.startsWith('#')) {
+          console.log("Skipped anchor: " + href);
+      } else if (href.startsWith('/')) {
+        hrefs.push(base + href);
+      } else {
+        hrefs.push(href);
+      }
+    }
+  }
+  return hrefs;
+}
+
+
 class LinkForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {value: 'http://example.com', links: []};
+    this.state = {value: 'https://en.wikipedia.org/wiki/React_(JavaScript_library)', links: []};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,9 +59,11 @@ class LinkForm extends React.Component {
   }
 
   handleSubmit(event) {
-    getHTML(this.state.value)
-      .then((html) => {
-        this.setState({links: ['a', 'b', html]});
+    getHTML(this.state.value
+      ).then((html) => {
+        return getLinksFromHTML(html, this.state.value);
+      }).then((hrefs) => {
+        this.setState({links: hrefs});
       });
     event.preventDefault();
   }
