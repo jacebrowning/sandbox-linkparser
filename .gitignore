@@ -1,6 +1,5 @@
 *.DS_Store
 *.pyc
-*.sublime-workspace
 
 # pipenv
 .venv/
