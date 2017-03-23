@@ -57,11 +57,17 @@ run: install build
 run-prod: install
 	pipenv shell -c "heroku local; exit $$?"
 
+# CHECKS #######################################################################
+
+.PHONY: check
+check: install
+	pipenv run pylint project tests --rcfile=.pylint.ini
+
 # TESTS ########################################################################
 
 .PHONY: test
 test: install
-	echo "TODO: run tests"
+	pipenv run pytest
 
 # CLEANUP ######################################################################
 
