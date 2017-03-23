@@ -10,7 +10,7 @@ var del = require('del');
 
 // tasks
 
-gulp.task('transform', function () {
+gulp.task('build', function () {
   var stream = gulp.src('./project/static/scripts/jsx/*.jsx')
     .pipe(gulpBrowser.browserify({transform: ['reactify']}))
     .pipe(rename({extname: '.js'}))
@@ -19,11 +19,11 @@ gulp.task('transform', function () {
   return stream;
 });
 
-gulp.task('del', function () {
+gulp.task('clean', function () {
   return del(['./project/static/scripts/js/']);
 });
 
-gulp.task('default', ['del'], function () {
-  gulp.start('transform');
-  gulp.watch('./project/static/scripts/jsx/*.jsx', ['transform']);
+gulp.task('default', ['clean'], function () {
+  gulp.start('build');
+  gulp.watch('./project/static/scripts/jsx/*.jsx', ['build']);
 });

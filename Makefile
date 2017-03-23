@@ -18,6 +18,7 @@ install: $(PYTHON_PACKAGES) $(NODE_MODULES) $(BOWER_COMPONENTS)
 
 $(PYTHON_PACKAGES): Pipfile* $(PIP)
 	pipenv install --dev
+	pipenv run pip install MacFSEvents || pipenv run pip install pyinotify || pipenv run pip install pywin32
 	@ touch $@
 
 $(PIP):
@@ -39,11 +40,12 @@ GULP := node_modules/gulp/bin/gulp.js
 
 .PHONY: build
 build: install
-	$(GULP) transform
+	$(GULP) build
 
-.PHONY: rebuild
-rebuild: install
-	status=1; while [ $$status -eq 1 ]; do $(GULP); status=$$?; sleep 1; done
+.PHONY: watch
+watch: install
+	$(GULP) clean
+	pipenv run sniffer
 
 # RUNNERS ######################################################################
 

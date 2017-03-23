@@ -7,3 +7,6 @@ gunicorn = "*"
 requests = "*"
 webargs = "*"
 Flask = "*"
+
+[dev-packages]
+sniffer = "*"

@@ -16,11 +16,17 @@ $ make install
 Run the application:
 
 ```sh
-make run
+$ make run
 ```
 
 Run the tests:
 
 ```sh
-make test
+$ make test
+```
+
+Keep the tests running:
+
+```sh
+$ make watch
 ```
