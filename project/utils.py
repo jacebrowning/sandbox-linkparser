@@ -71,6 +71,7 @@ class URL:
 def filter_invalid_urls(urls):
     """Yield a URL response for each invalid URL."""
     for url in urls:
+        # TODO: pool these URL connections
         response = URL(url)
         if not response.valid:
             yield response

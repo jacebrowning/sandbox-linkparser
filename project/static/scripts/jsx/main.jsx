@@ -1,16 +1,48 @@
-function LinksList(props) {
+function ErrorsList(props) {
+  const errors = props.errors;
+
+  if (errors.length == 0) {
+    return <div></div>
+  }
+
   return (
-    <ul>
-      {props.hrefs.map( function(href) {
-        return <li><a href={href}>{href}</a></li>;
-      })}
-    </ul>
+    <div>
+      <h2>Errors detected in URL:</h2>
+      <ul>
+        {errors.map( function(error) {
+          return <li>{error}</li>
+        })}
+      </ul>
+    </div>
   )
 }
 
+function LinksList(props) {
+  const hrefs = props.hrefs;
+
+  if (hrefs.length == 0) {
+    return (
+      <div>
+        <h2>No links found in the URL.</h2>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <h2>Links found in the URL:</h2>
+      <ul>
+        {hrefs.map( function(href) {
+          return <li><a href={href}>{href}</a></li>;
+        })}
+        {(hrefs.length > 0) ? null : "(none)"}
+      </ul>
+    </div>
+  )
+}
 
 function getHTML(url) {
-    // TODO: retry with proxy
+    // TODO: try URL directly, then retry with proxy
     return fetch('/proxy?url=' + url)
       .then(response => {
         return response.text();
@@ -21,11 +53,10 @@ function getHTML(url) {
       });
   }
 
-
 function getLinksFromHTML(html, base) {
   var hrefs = [];
   var parser = new DOMParser();
-  var doc = parser.parseFromString(html, 'text/xml');
+  var doc = parser.parseFromString(html, 'text/html');
   var anchors = doc.getElementsByTagName('a');
   for (var i=0; i < anchors.length; i++) {
     var href = anchors[i].getAttribute('href');
@@ -43,13 +74,36 @@ function getLinksFromHTML(html, base) {
   return hrefs;
 }
 
+function getErrors(url) {
+  return fetch('/validate', {
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        urls: [url],
+      }),
+    }).then(response => {
+      return response.json();
+    }).then(data => {
+      if (data.length > 0) {
+        return data[0].errors;
+      } else {
+        return [];
+      }
+    }).catch(error => {
+      console.error(error)
+    });
+}
 
 class LinkForm extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      url: 'https://en.wikipedia.org/wiki/React_(JavaScript_library)',
+      url: 'https://en.2wikipedia.org/wiki/React_(JavaScript_library)',
+      errors: [],
       hrefs: [],
     };
     this.handleChange = this.handleChange.bind(this);
@@ -61,6 +115,10 @@ class LinkForm extends React.Component {
   }
 
   handleSubmit(event) {
+    getErrors(this.state.url
+      ).then((errors) => {
+        this.setState({errors: errors});
+      });
     getHTML(this.state.url
       ).then((html) => {
         return getLinksFromHTML(html, this.state.url);
@@ -79,12 +137,13 @@ class LinkForm extends React.Component {
           <input type="submit" class="button-submit" value="Submit" />
         </form>
 
+        <ErrorsList errors={this.state.errors} />
+
         <LinksList hrefs={this.state.hrefs} />
 
       </div>
     );
   }
 }
-
 
 ReactDOM.render(<LinkForm />, document.getElementById('main'));

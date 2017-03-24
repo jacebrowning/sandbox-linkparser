@@ -49,9 +49,11 @@ watch: install
 
 # RUNNERS ######################################################################
 
+export FLASK_APP=project/app.py
+
 .PHONY: run
 run: install build
-	status=1; while [ $$status -eq 1 ]; do pipenv run python project/app.py; status=$$?; sleep 1; done
+	status=1; while [ $$status -eq 1 ]; do pipenv run flask run --reload; status=$$?; sleep 1; done
 
 .PHONY: run-prod
 run-prod: install
