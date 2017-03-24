@@ -64,6 +64,8 @@ function getLinksFromHTML(html, base) {
       href = href.trim();
       if (href.startsWith('#')) {
           console.log("Skipped anchor: " + href);
+      } else if (href.startsWith('//')) {
+        hrefs.push('http:' + href);
       } else if (href.startsWith('/')) {
         hrefs.push(base + href);
       } else {
@@ -102,7 +104,7 @@ class LinkForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: 'https://en.2wikipedia.org/wiki/React_(JavaScript_library)',
+      url: '',
       errors: [],
       hrefs: [],
     };
