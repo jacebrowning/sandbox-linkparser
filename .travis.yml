@@ -14,7 +14,7 @@ env:
     - PIPENV_NOSPIN=true
 
 before_install:
-  - pip install pipenv
+  - pip install pipenv==3.5.4
   - npm install -g npm@3.10.8
 
 install:

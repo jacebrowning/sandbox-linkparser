@@ -2,8 +2,9 @@
 
 ## Requirements
 
-* Python 3.6
-* NPM 3.10
+* Python 3.6.0
+* pipenv: 3.5.4
+* NPM 3.10.8
 
 ## Usage
 
