@@ -1,22 +1,8 @@
 {
-  "name": "ultimate-flask-front-end",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "sandbox-linkparser",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "bower install && gulp build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/realpython/ultimate-flask-front-end.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/realpython/ultimate-flask-front-end/issues"
-  },
-  "homepage": "https://github.com/realpython/ultimate-flask-front-end#readme",
   "devDependencies": {
     "bower": "^1.7.9",
     "del": "^2.2.0",

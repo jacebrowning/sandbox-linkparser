@@ -20,7 +20,7 @@ BOWER := node_modules/bower/bin/bower
 install: $(PYTHON_PACKAGES) $(NODE_MODULES) $(BOWER_COMPONENTS)
 
 $(PYTHON_PACKAGES): Pipfile* $(PIP)
-	pipenv install --dev
+	pipenv install --dev --ignore-hashes
 	pipenv run pip install MacFSEvents || pipenv run pip install pyinotify || pipenv run pip install pywin32
 	@ touch $@
 
@@ -78,7 +78,7 @@ test: install
 
 .PHONY: clean
 clean:
-	$(GULP) del
+	$(GULP) clean
 	rm -rf project/static/bower_components
 	rm -rf node_modules
 	rm -rf .venv
