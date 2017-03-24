@@ -13,6 +13,7 @@ pytest = "*"
 pytest-describe = "*"
 pytest-expecter = "*"
 sniffer = "*"
+Flask-Script = "*"
 
 [dev-packages.pylint]
 git = "https://github.com/PyCQA/pylint.git"

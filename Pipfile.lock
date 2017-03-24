@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "61e3e22bcbf34596e18be1ee76d53ae838c043dc96f9e96f8afc2dfb68db4792"
+            "sha256": "34ff1e4906447412ebdc2e07cca5c7d176d654dd215be5977a49be44639974f8"
         },
         "requires": {},
         "sources": [
@@ -54,6 +54,26 @@
         }
     },
     "develop": {
+        "Flask": {
+            "hash": "sha256:7f03bb2c255452444f7265eddb51601806e5447b6f8a2d50bbc77a654a14c118",
+            "version": "==0.12"
+        },
+        "Flask-Script": {
+            "hash": "sha256:cef76eac751396355429a14c38967bb14d4973c53e07dec94af5cc8fb017107f",
+            "version": "==2.0.5"
+        },
+        "Jinja2": {
+            "hash": "sha256:a7b7438120dbe76a8e735ef7eba6048eaf4e0b7dbc530e100812f8ec462a4d50",
+            "version": "==2.9.5"
+        },
+        "MarkupSafe": {
+            "hash": "sha256:a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665",
+            "version": "==1.0"
+        },
+        "Werkzeug": {
+            "hash": "sha256:918322630c58fa52b89e14c45de3ad78514e18928dac726060bb89cd647f6b83",
+            "version": "==0.12.1"
+        },
         "appdirs": {
             "hash": "sha256:d8b24664561d0d34ddfaec54636d502d7cea6e29c3eaf68f3df6180863e2166e",
             "version": "==1.4.3"
@@ -62,9 +82,17 @@
             "git": "https://github.com/PyCQA/astroid.git",
             "ref": "4e7d9fee4080d2e0db67a3e0463be8b196e56a95"
         },
+        "click": {
+            "hash": "sha256:29f99fc6125fbc931b758dc053b3114e55c77a6e4c6c3a2674a2dc986016381d",
+            "version": "==6.7"
+        },
         "colorama": {
             "hash": "sha256:a4c0f5bc358a62849653471e309dcc991223cf86abafbec17cd8f41327279e89",
             "version": "==0.3.7"
+        },
+        "itsdangerous": {
+            "hash": "sha256:cbb3fcf8d3e33df861709ecaf89d9e6629cff0a217bc2848f1b41cd30d360519",
+            "version": "==0.24"
         },
         "nose": {
             "hash": "sha256:9ff7c6cc443f8c51994b34a667bbcf45afd6d945be7477b52e97516fd17c53ac",

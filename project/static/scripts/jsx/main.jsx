@@ -7,10 +7,11 @@ function ErrorsList(props) {
 
   return (
     <div>
-      <h2>Errors detected in URL:</h2>
-      <ul>
+      <hr></hr>
+      <h2>Errors detected in the URL</h2>
+      <ul className="list-group">
         {errors.map( function(error) {
-          return <li>{error}</li>
+          return <li className="list-group-item text-danger">{error}</li>
         })}
       </ul>
     </div>
@@ -18,22 +19,32 @@ function ErrorsList(props) {
 }
 
 function LinksList(props) {
+  const processing = props.processing;
   const hrefs = props.hrefs;
+
+  if (processing) {
+    return <div></div>
+  }
 
   if (hrefs.length == 0) {
     return (
       <div>
-        <h2>No links found in the URL.</h2>
+        <hr></hr>
+        <h2>Links found in the URL</h2>
+        <ul className="list-group">
+          <li className="list-group-item text-muted">None</li>
+        </ul>
       </div>
     )
   }
 
   return (
     <div>
-      <h2>Links found in the URL:</h2>
-      <ul>
+      <hr></hr>
+      <h2>Links found in the URL</h2>
+      <ul className="list-group">
         {hrefs.map( function(href) {
-          return <li><a href={href}>{href}</a></li>;
+          return <li className="list-group-item"><a href={href} target="_blank">{href}</a></li>;
         })}
         {(hrefs.length > 0) ? null : "(none)"}
       </ul>
@@ -105,6 +116,7 @@ class LinkForm extends React.Component {
     super(props);
     this.state = {
       url: '',
+      processing: true,
       errors: [],
       hrefs: [],
     };
@@ -113,10 +125,11 @@ class LinkForm extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({url: event.target.value});
+    this.setState({url: event.target.value.trim()});
   }
 
   handleSubmit(event) {
+    this.setState({hrefs: [], errors: []});
     getErrors(this.state.url
       ).then((errors) => {
         this.setState({errors: errors});
@@ -125,23 +138,25 @@ class LinkForm extends React.Component {
       ).then((html) => {
         return getLinksFromHTML(html, this.state.url);
       }).then((hrefs) => {
-        this.setState({hrefs: hrefs});
+        this.setState({processing: false, hrefs: hrefs});
       });
     event.preventDefault();
   }
 
   render() {
     return (
-      <div>
+      <div className="col-sm-10 col-sm-offset-1 col-lg-6 col-lg-offset-3">
 
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" value={this.state.url} onChange={this.handleChange} />
-          <input type="submit" class="button-submit" value="Submit" />
+        <form onSubmit={this.handleSubmit} className="input-group">
+          <input type="text" placeholder="URL of an HTML page..." value={this.state.url} onChange={this.handleChange} className="form-control" />
+          <span className="input-group-btn">
+            <input type="submit" value="Process URL" className="btn btn-primary" />
+          </span>
         </form>
 
         <ErrorsList errors={this.state.errors} />
 
-        <LinksList hrefs={this.state.hrefs} />
+        <LinksList processing={this.state.processing} hrefs={this.state.hrefs} />
 
       </div>
     );

@@ -20,7 +20,6 @@ def jsx_files(filename):
     return filename.endswith('.jsx')
 
 
-@select_runnable('run_tests')
 @file_validator
 def html_files(filename):
     return filename.split('.')[-1] in ['html', 'css', 'js']
