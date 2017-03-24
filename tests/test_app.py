@@ -46,6 +46,7 @@ def describe_validate():
         data = json.loads(response.data)
 
         expect(data) == [
+            # pylint: disable=line-too-long
             {
                 'url': "http://example.com/foo/bar",
                 'status_code': 404,

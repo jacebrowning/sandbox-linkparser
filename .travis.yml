@@ -1,0 +1,30 @@
+language: python
+python:
+  - 3.6
+
+cache:
+  pip: true
+  directories:
+    - .venv
+    - node_modules
+    - project/static/bower_components
+
+env:
+  global:
+    - PIPENV_NOSPIN=true
+
+before_install:
+  - pip install pipenv
+  - npm install -g npm@3.10.8
+
+install:
+  - make install
+
+script:
+  - make check
+  - make test
+
+notifications:
+  email:
+    on_success: never
+    on_failure: never

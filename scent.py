@@ -33,4 +33,4 @@ def rebuild_js_from_jsx(*_):
 
 @runnable
 def run_tests(*_):
-    return call(['make', 'test']) == 0
+    return call(['make', 'test', 'check']) == 0

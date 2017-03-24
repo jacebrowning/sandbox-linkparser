@@ -1,6 +1,9 @@
 .PHONY: all
 all: install
 
+.PHONY: ci
+ci: test check
+
 # DEPENDENCIES #################################################################
 
 export PIPENV_SHELL_COMPAT=true
