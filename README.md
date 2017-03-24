@@ -1,5 +1,7 @@
 # sandbox-linkparser
 
+[![Build Status](https://travis-ci.org/jacebrowning/sandbox-linkparser.svg?branch=master)](https://travis-ci.org/jacebrowning/sandbox-linkparser)
+
 ## Requirements
 
 * Python 3.6.0
