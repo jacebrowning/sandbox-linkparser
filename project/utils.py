@@ -35,9 +35,13 @@ class URL:
         except requests.exceptions.RequestException as exc:
             self.valid = False
             self.errors.append(self._translate_exception(exc))
+            self.errors.append(self._translate_code(None)[-1])
         else:
             self.status_code = response.status_code
-            self.valid = self._is_successful(self.status_code)
+            success, message = self._translate_code(self.status_code)
+            self.valid = success
+            if message:
+                self.errors.append(message)
 
     @staticmethod
     def _translate_exception(exc):
@@ -48,10 +52,25 @@ class URL:
         return str(exc)
 
     @staticmethod
-    def _is_successful(code):
+    def _translate_code(code):
         """Determine if an HTTP status code should be consider successful."""
-        return 200 <= code < 400
+        pattern = "URL responded with a non-successful status code: {}"
+        if code:
+            success = 200 <= code < 400
+            if success:
+                message = None
+            else:
+                message = pattern.format(code)
+        else:
+            success = False
+            message = pattern.format("(no response)")
+
+        return success, message
 
 
-def check_url(url):
-    return URL(url)
+def filter_invalid_urls(urls):
+    """Yield a URL response for each invalid URL."""
+    for url in urls:
+        response = URL(url)
+        if not response.valid:
+            yield response

@@ -3,7 +3,7 @@
 import pytest
 from expecter import expect
 
-from project.utils import URL
+from project.utils import URL, filter_invalid_urls
 
 
 URL_200 = "http://example.com"
@@ -47,29 +47,44 @@ def describe_url():
 
     def describe_errors():
 
+        # pylint: disable=line-too-long
+
         def with_valid_url():
             expect(URL(URL_200).errors) == []
 
+        def with_unsuccessful_status_code():
+            expect(URL(URL_404).errors) == [
+                "URL responded with a non-successful status code: 404",
+            ]
+
         def with_invalid_scheme():
             expect(URL(URL_BAD_SCHEME).errors) == [
-                "No connection adapters were found for 'foobar://example.com'"
+                "No connection adapters were found for 'foobar://example.com'",
+                "URL responded with a non-successful status code: (no response)",
             ]
 
         def with_missing_scheme():
             expect(URL(URL_NO_SCHEME).errors) == [
-                "Invalid URL 'example.com': No schema supplied. Perhaps you meant http://example.com?"
+                "Invalid URL 'example.com': No schema supplied. Perhaps you meant http://example.com?",
+                "URL responded with a non-successful status code: (no response)",
             ]
 
         def with_missing_tld():
             expect(URL(URL_NO_TLD).errors) == [
-                "Unable to connect to domain."
+                "Unable to connect to domain.",
+                "URL responded with a non-successful status code: (no response)",
             ]
 
         def with_non_url():
             expect(URL(NON_URL).errors) == [
-                "Invalid URL 'example': No schema supplied. Perhaps you meant http://example?"
+                "Invalid URL 'example': No schema supplied. Perhaps you meant http://example?",
+                "URL responded with a non-successful status code: (no response)",
             ]
 
 
 def describe_filter_invalid_urls():
-    pass
+
+    def it_keeps_invalid_urls():
+        urls = filter_invalid_urls([URL_200, URL_301, URL_404, URL_BAD_SCHEME])
+
+        expect([str(u) for u in urls]) == [URL_404, URL_BAD_SCHEME]
