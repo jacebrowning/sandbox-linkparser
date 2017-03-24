@@ -3,49 +3,52 @@
 import pytest
 from expecter import expect
 
-from project.utils import URL, check_url
+from project.utils import URL
 
 
-@pytest.fixture
-def valid_url_with_200():
-    return "http://example.com/"
-
-
-@pytest.fixture
-def valid_url_with_404():
-    return "http://example.com/foobar"
+URL_200 = "http://example.com/"
+URL_301 = "https://en.wikipedia.org/wiki/react"
+URL_404 = "http://example.com/foo/bar"
+URL_BAD_SCHEME = "foobar://example.com/"
 
 
 def describe_url():
 
     def describe_status_code():
 
-        def when_200(valid_url_with_200):
-            url = URL(valid_url_with_200)
-            url.validate()
+        @pytest.mark.parametrize("url,valid", [
+            (URL_200, 200),
+            (URL_301, 301),
+            (URL_404, 404),
+        ])
+        def is_based_on_response_status_code(url, valid):
+            expect(URL(url).status_code) == valid
 
-            expect(url.status_code) == 200
-
-        def when_404(valid_url_with_404):
-            url = URL(valid_url_with_404)
-            url.validate()
-
-            expect(url.status_code) == 404
-
-
-def describe_check_url():
-
-    def with_valid_url(valid_url_with_200):
-        response = check_url(valid_url_with_200)
-
-        expect(response.valid) == True
-
-    def with_valid_url_but_not_found(valid_url_with_404):
-        response = check_url(valid_url_with_404)
-
-        expect(response.valid) == False
+        def is_none_with_invalid_url():
+            expect(URL(URL_BAD_SCHEME).status_code) == None
 
 
+    def describe_valid():
 
-def describe_check_urls():
+        @pytest.mark.parametrize("url,valid", [
+            (URL_200, True),
+            (URL_301, True),
+            (URL_404, False),
+            (URL_BAD_SCHEME, False),
+        ])
+        def is_based_on_valid_url_and_success_status(url, valid):
+            expect(URL(url).valid) == valid
+
+    def describe_errors():
+
+        def is_empty_with_valid_url():
+            expect(URL(URL_200).errors) == []
+
+        def identifies_invalid_schemes():
+            expect(URL(URL_BAD_SCHEME).errors) == [
+                "No connection adapters were found for 'foobar://example.com/'"
+            ]
+
+
+def describe_filter_invalid_urls():
     pass
