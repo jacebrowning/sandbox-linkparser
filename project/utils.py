@@ -34,13 +34,22 @@ class URL:
             response = requests.get(self._url, allow_redirects=False)
         except requests.exceptions.RequestException as exc:
             self.valid = False
-            self.errors.append(str(exc))
+            self.errors.append(self._translate_exception(exc))
         else:
             self.status_code = response.status_code
             self.valid = self._is_successful(self.status_code)
 
     @staticmethod
+    def _translate_exception(exc):
+        """Translate a 'requests' exception to a user-facing message."""
+        if isinstance(exc, requests.exceptions.ConnectionError):
+            return "Unable to connect to domain."
+
+        return str(exc)
+
+    @staticmethod
     def _is_successful(code):
+        """Determine if an HTTP status code should be consider successful."""
         return 200 <= code < 400
 
 
