@@ -30,7 +30,7 @@ function LinksList(props) {
     return (
       <div>
         <hr></hr>
-        <h2>Links found in the URL</h2>
+        <h2>Links found in the HTML</h2>
         <ul className="list-group">
           <li className="list-group-item text-muted">None</li>
         </ul>
@@ -41,7 +41,7 @@ function LinksList(props) {
   return (
     <div>
       <hr></hr>
-      <h2>Links found in the URL</h2>
+      <h2>Links found in the HTML</h2>
       <ul className="list-group">
         {hrefs.map( function(href) {
           return <li className="list-group-item"><a href={href} target="_blank">{href}</a></li>;
