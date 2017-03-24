@@ -145,7 +145,7 @@ class LinkForm extends React.Component {
 
   render() {
     return (
-      <div className="col-sm-10 col-sm-offset-1 col-lg-6 col-lg-offset-3">
+      <div className="col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
 
         <form onSubmit={this.handleSubmit} className="input-group">
           <input type="text" placeholder="URL of an HTML page..." value={this.state.url} onChange={this.handleChange} className="form-control" />
