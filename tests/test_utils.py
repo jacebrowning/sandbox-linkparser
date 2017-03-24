@@ -21,7 +21,7 @@ def describe_url():
 
         @pytest.mark.parametrize("url,valid", [
             (URL_200, 200),
-            (URL_301, 301),
+            (URL_301, 200),
             (URL_404, 404),
         ])
         def is_based_on_response_status_code(url, valid):

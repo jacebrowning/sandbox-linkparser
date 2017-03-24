@@ -31,7 +31,7 @@ class URL:
         self.reset()
 
         try:
-            response = requests.get(self._url, allow_redirects=False)
+            response = requests.get(self._url)
         except requests.exceptions.RequestException as exc:
             self.valid = False
             self.errors.append(self._translate_exception(exc))
